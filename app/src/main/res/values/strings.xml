@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Gear Guard</string>
+
+
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vel ligula condimentum, aliquam sem vel, viverra nulla. Duis quis urna dolor. Vestibulum tristique, lacus quis lobortis ultrices, ante enim euismod erat, in iaculis augue nibh vel erat. Vivamus consectetur egestas elit id vulputate. Suspendisse commodo sagittis tempus. Nulla pellentesque orci vel tincidunt elementum. Sed scelerisque ut elit non laoreet. Suspendisse elit turpis, consequat eu mollis ac, suscipit sed nibh. Curabitur vulputate sed felis vel auctor. Etiam rhoncus rhoncus sapien eget interdum. Sed vel tristique eros. Fusce ornare sed augue ac gravida.
+
+        Donec in interdum odio. Suspendisse eu gravida massa. Fusce vitae volutpat leo. Integer sapien neque, ullamcorper eu ultricies vitae, egestas ac purus. Etiam accumsan purus in risus posuere, eget lacinia ante dignissim. Vivamus purus mauris, scelerisque quis odio ut, auctor ultricies nisi. Praesent maximus ex est, in luctus quam sodales id. Morbi quis malesuada odio, sit amet sodales dui. Nulla elementum lacus sollicitudin dictum varius.
+
+        Mauris finibus sed lectus in feugiat. Nam tortor leo, elementum ac porttitor et, fermentum ornare nulla. Donec iaculis pulvinar pellentesque. Ut auctor lectus hendrerit mollis pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed facilisis enim quis ullamcorper tincidunt. In sed tincidunt quam. Quisque id varius mauris. In a nunc ac justo malesuada accumsan non eu lorem. Fusce rhoncus sit amet leo a convallis. Pellentesque mollis ligula vitae odio maximus volutpat. Nam faucibus porttitor imperdiet.
+
+        Aenean posuere enim ac interdum placerat. In in elementum felis. Sed nisl turpis, porttitor ac lacus in, sagittis pretium justo. Duis volutpat justo at sapien hendrerit consectetur. Morbi tincidunt ullamcorper tortor eget pharetra. Pellentesque id maximus urna, eu hendrerit elit. Duis tellus elit, gravida eget purus ac, congue porttitor magna. Ut blandit venenatis nisl sed semper. Ut sed aliquet felis.
+
+        Etiam ex libero, consectetur sed purus quis, laoreet varius augue. Nam nec nulla et arcu porta hendrerit. Nulla luctus, risus vel rhoncus ultrices, augue sem elementum augue, ut fringilla ante lectus at purus. Nam venenatis diam nec pellentesque suscipit. Vivamus viverra nunc lacus, et tristique arcu commodo eget. Curabitur ut enim auctor, fringilla augue a, egestas metus. Pellentesque libero magna, luctus in metus sit amet, efficitur blandit metus. Sed consectetur erat nisl, in venenatis elit commodo a. Donec quis bibendum elit, sit amet vulputate lorem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vestibulum ut pulvinar elit, eu vulputate sem.
+    </string>
 </resources>
