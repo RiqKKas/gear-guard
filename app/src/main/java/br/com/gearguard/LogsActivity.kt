@@ -19,6 +19,7 @@ class LogsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         logCommandController = LogCommandController(baseContext)
-        viewModel = ViewModelProvider(this).get(LogsCommandsViewModel::class.java)
+        viewModel = ViewModelProvider(this)[LogsCommandsViewModel::class.java]
     }
+
 }

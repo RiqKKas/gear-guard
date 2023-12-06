@@ -8,18 +8,18 @@ import br.com.gearguard.database.SQLiteROOM
 import br.com.gearguard.model.LogCommandEntity
 import java.time.LocalDateTime
 
-class LogCommandController(var contexto:Context) {
+class LogCommandController(var context: Context) {
 
     lateinit var dao: LogCommandDAO
 
     init {
-        dao = SQLiteROOM.getBancoROOM(contexto).logCommandDAO()
+        dao = SQLiteROOM.getBancoROOM(context).logCommandDAO()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun insert(commandName: String): Boolean {
         if (commandName != "") {
-            val data = LocalDateTime.now()
+            val data = LocalDateTime.now().toString()
             val command: LogCommandEntity = LogCommandEntity(commandName, data)
 
             return dao.save(command) >= 1

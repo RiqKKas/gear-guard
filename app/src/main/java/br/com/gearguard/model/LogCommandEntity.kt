@@ -16,11 +16,11 @@ class LogCommandEntity {
     var commandName: String = ""
 
     @ColumnInfo(name = "date")
-    var date: LocalDateTime? = null
+    var date: String = ""
 
     constructor()
 
-    constructor(commandName: String, date: LocalDateTime){
+    constructor(commandName: String, date: String){
         this.commandName = commandName
         this.date = date
     }

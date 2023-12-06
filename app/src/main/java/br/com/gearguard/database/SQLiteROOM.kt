@@ -14,10 +14,10 @@ abstract class SQLiteROOM(): RoomDatabase() {
     companion object {
         private lateinit var INSTANCE: SQLiteROOM
 
-        fun getBancoROOM(contexto:Context): SQLiteROOM {
+        fun getBancoROOM(context: Context): SQLiteROOM {
             if (!::INSTANCE.isInitialized){
                 synchronized(SQLiteROOM::class) {
-                    INSTANCE = Room.databaseBuilder(contexto, SQLiteROOM::class.java,
+                    INSTANCE = Room.databaseBuilder(context, SQLiteROOM::class.java,
                         "gear_guard").allowMainThreadQueries().build()
                 }
             }
