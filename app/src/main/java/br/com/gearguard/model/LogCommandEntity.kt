@@ -3,7 +3,7 @@ package br.com.gearguard.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity(tableName = "LogCommandEntity")
 class LogCommandEntity {
@@ -16,11 +16,11 @@ class LogCommandEntity {
     var commandName: String = ""
 
     @ColumnInfo(name = "date")
-    var date: LocalDate? = null
+    var date: LocalDateTime? = null
 
     constructor()
 
-    constructor(commandName: String, date: LocalDate){
+    constructor(commandName: String, date: LocalDateTime){
         this.commandName = commandName
         this.date = date
     }
