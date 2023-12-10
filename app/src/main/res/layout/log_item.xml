@@ -26,15 +26,6 @@
             android:textColor="@color/white"/>
 
         <TextView
-            android:id="@+id/timesUsed"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.7"
-            android:gravity="center"
-            android:text="x2"
-            android:textColor="@color/white"/>
-
-        <TextView
             android:id="@+id/dateCommandUsed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

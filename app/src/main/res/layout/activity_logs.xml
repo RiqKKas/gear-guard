@@ -69,17 +69,7 @@
             android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:gravity="center"
-            android:background="@null"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Contagem"
-            android:textColor="@color/white"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:gravity="center"
-            android:background="@null"/>
+            android:background="@drawable/border"/>
 
         <TextView
             android:layout_width="0dp"
@@ -89,7 +79,7 @@
             android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:gravity="center"
-            android:background="@null"/>
+            android:background="@drawable/border"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

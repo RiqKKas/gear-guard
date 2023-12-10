@@ -8,7 +8,6 @@ class LogCommandHold(var binding: LogItemBinding): RecyclerView.ViewHolder(bindi
 
     fun bind(logCommand: LogCommandEntity){
         binding.commandName.text = logCommand.commandName
-        binding.timesUsed.text = 0.toString()
         binding.dateCommandUsed.text = logCommand.date
     }
 

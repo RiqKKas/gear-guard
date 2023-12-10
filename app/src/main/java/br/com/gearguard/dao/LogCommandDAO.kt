@@ -11,7 +11,7 @@ interface LogCommandDAO {
     @Insert
     fun save(log: LogCommandEntity): Long
 
-    @Query("Select * From LogCommandEntity")
+    @Query("Select * From LogCommandEntity ORDER BY id DESC;")
     fun getAll(): List<LogCommandEntity>
 
 }

@@ -50,27 +50,27 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageButton
-        android:id="@+id/touchRight"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@null"
-        android:src="@drawable/rightbtn"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/touchLeft"
-        android:layout_marginTop="20dp"
-        android:contentDescription="Botão Direita" />
-
-    <ImageButton
         android:id="@+id/touchLeft"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@null"
         android:src="@drawable/leftbtn"
-        app:layout_constraintTop_toBottomOf="@id/touchRight"
-        app:layout_constraintStart_toStartOf="@id/touchRight"
-        app:layout_constraintEnd_toEndOf="@id/touchRight"
+        app:layout_constraintTop_toBottomOf="@id/header_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/touchRight"
+        android:layout_marginTop="35dp"
+        android:contentDescription="Botão Direita" />
+
+    <ImageButton
+        android:id="@+id/touchRight"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@null"
+        android:src="@drawable/rightbtn"
+        app:layout_constraintTop_toBottomOf="@id/touchLeft"
+        app:layout_constraintStart_toStartOf="@id/touchLeft"
+        app:layout_constraintEnd_toEndOf="@id/touchLeft"
         app:layout_constraintBottom_toTopOf="@id/logo_gear_guard"
         android:contentDescription="Botão Esquerda"/>
 

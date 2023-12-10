@@ -8,6 +8,7 @@ import br.com.gearguard.model.LogCommandEntity
 import java.util.Calendar
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.TimeZone
 
 class LogCommandController(var context: Context) {
 
@@ -19,11 +20,19 @@ class LogCommandController(var context: Context) {
 
     fun insert(commandName: String): Boolean {
         if (commandName != "") {
-            val calendar = Calendar.getInstance()
-            val date = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(calendar.time)
-            val command = LogCommandEntity(commandName, date)
+            val timeZone = TimeZone.getTimeZone("America/Sao_Paulo")
+            val calendar = Calendar.getInstance(timeZone)
+            val dateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
+            dateFormat.timeZone = timeZone
+            val dateInBrazil = dateFormat.format(calendar.time)
 
-            return dao.save(command) >= 1
+            val command = LogCommandEntity(commandName, dateInBrazil)
+            val save =  dao.save(command) >= 1
+
+            if (save) {
+                this.executeCommand(commandName)
+                return true
+            }
         }
 
         return false
@@ -31,6 +40,10 @@ class LogCommandController(var context: Context) {
 
     fun getAllLogs(): MutableList <LogCommandEntity> {
         return dao.getAll().toMutableList()
+    }
+
+    private fun executeCommand(commandName: String): Boolean {
+        return true
     }
 
 }
