@@ -37,7 +37,7 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageButton
-            android:id="@+id/btn_back"
+            android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -48,5 +48,78 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageButton
+        android:id="@+id/touchRight"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@null"
+        android:src="@drawable/rightbtn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/touchLeft"
+        android:layout_marginTop="20dp"
+        android:contentDescription="Botão Direita" />
+
+    <ImageButton
+        android:id="@+id/touchLeft"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@null"
+        android:src="@drawable/leftbtn"
+        app:layout_constraintTop_toBottomOf="@id/touchRight"
+        app:layout_constraintStart_toStartOf="@id/touchRight"
+        app:layout_constraintEnd_toEndOf="@id/touchRight"
+        app:layout_constraintBottom_toTopOf="@id/logo_gear_guard"
+        android:contentDescription="Botão Esquerda"/>
+
+    <ImageView
+        android:id="@+id/logo_gear_guard"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:rotation="90"
+        android:src="@drawable/logo"
+        app:layout_constraintTop_toBottomOf="@id/touchLeft"
+        app:layout_constraintBottom_toTopOf="@id/touchStop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/touchBottom"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@null"
+        android:src="@drawable/bottombtn"
+        app:layout_constraintTop_toBottomOf="@id/logo_gear_guard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/touchStop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="Botão Baixo" />
+
+    <ImageButton
+        android:id="@+id/touchStop"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@null"
+        android:src="@drawable/image"
+        app:layout_constraintTop_toBottomOf="@id/logo_gear_guard"
+        app:layout_constraintStart_toEndOf="@id/touchBottom"
+        app:layout_constraintEnd_toStartOf="@id/touchTop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="Botão Stop"/>
+
+    <ImageButton
+        android:id="@+id/touchTop"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@null"
+        android:src="@drawable/topbtn"
+        app:layout_constraintTop_toBottomOf="@id/logo_gear_guard"
+        app:layout_constraintStart_toEndOf="@id/touchStop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="Botão Topo" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

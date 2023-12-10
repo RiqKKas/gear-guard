@@ -14,13 +14,13 @@
         android:layout_height="325dp"
         android:src="@drawable/logo"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_controle"
+        app:layout_constraintBottom_toTopOf="@id/btnControle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="50dp"/>
 
     <Button
-        android:id="@+id/btn_controle"
+        android:id="@+id/btnControle"
         android:layout_width="170dp"
         android:layout_height="55dp"
         android:text="Controle"
@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
-        android:id="@+id/btn_logs"
+        android:id="@+id/btnLogs"
         android:layout_width="170dp"
         android:layout_height="55dp"
         android:text="Logs"
@@ -47,12 +47,12 @@
         android:textAllCaps="false"
         android:layout_marginTop="20dp"
         app:cornerRadius="5dp"
-        app:layout_constraintTop_toBottomOf="@id/btn_controle"
-        app:layout_constraintStart_toStartOf="@id/btn_controle"
-        app:layout_constraintEnd_toEndOf="@id/btn_controle"/>
+        app:layout_constraintTop_toBottomOf="@id/btnControle"
+        app:layout_constraintStart_toStartOf="@id/btnControle"
+        app:layout_constraintEnd_toEndOf="@id/btnControle"/>
 
     <Button
-        android:id="@+id/btn_documentacao"
+        android:id="@+id/btnDocumentacao"
         android:layout_width="170dp"
         android:layout_height="55dp"
         android:text="Documentação"
@@ -62,8 +62,8 @@
         android:textAllCaps="false"
         android:layout_marginTop="20dp"
         app:cornerRadius="5dp"
-        app:layout_constraintTop_toBottomOf="@id/btn_logs"
-        app:layout_constraintStart_toStartOf="@id/btn_logs"
-        app:layout_constraintEnd_toEndOf="@id/btn_logs"/>
+        app:layout_constraintTop_toBottomOf="@id/btnLogs"
+        app:layout_constraintStart_toStartOf="@id/btnLogs"
+        app:layout_constraintEnd_toEndOf="@id/btnLogs"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
