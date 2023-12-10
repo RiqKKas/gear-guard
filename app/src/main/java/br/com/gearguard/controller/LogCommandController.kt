@@ -1,12 +1,13 @@
 package br.com.gearguard.controller
 
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
 import br.com.gearguard.dao.LogCommandDAO
 import br.com.gearguard.database.SQLiteROOM
 import br.com.gearguard.model.LogCommandEntity
-import java.time.LocalDateTime
+
+import java.util.Calendar
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class LogCommandController(var context: Context) {
 
@@ -16,16 +17,20 @@ class LogCommandController(var context: Context) {
         dao = SQLiteROOM.getBancoROOM(context).logCommandDAO()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun insert(commandName: String): Boolean {
         if (commandName != "") {
-            val data = LocalDateTime.now().toString()
-            val command: LogCommandEntity = LogCommandEntity(commandName, data)
+            val calendar = Calendar.getInstance()
+            val date = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(calendar.time)
+            val command = LogCommandEntity(commandName, date)
 
             return dao.save(command) >= 1
         }
 
         return false
+    }
+
+    fun getAllLogs(): MutableList <LogCommandEntity> {
+        return dao.getAll().toMutableList()
     }
 
 }
