@@ -3,8 +3,10 @@ package br.com.gearguard
 import android.Manifest
 import android.os.Build
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
-import android.bluetooth.BluetoothProfile
+import android.bluetooth.BluetoothSocket
+import android.widget.Toast
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -16,13 +18,16 @@ import androidx.core.content.ContextCompat
 import br.com.gearguard.controller.LogCommandController
 import br.com.gearguard.databinding.ActivityControlBinding
 import android.provider.Settings
-
+import java.io.IOException
+import java.util.UUID
 
 class ControlActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityControlBinding
     private lateinit var logCommandController: LogCommandController
 
+    private lateinit var bluetoothDevice: BluetoothDevice
+    private lateinit var bluetoothSocket: BluetoothSocket
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private val MY_PERMISSIONS_REQUEST_LOCATION = 99
 
@@ -37,6 +42,48 @@ class ControlActivity : AppCompatActivity(), View.OnClickListener {
         val bluetoothManager: BluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothAdapter = bluetoothManager.adapter
         requestBluetoothPermissions()
+
+        establishBluetoothConnection()
+    }
+
+    private fun getBluetoothAddress(): String {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
+            val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter.bondedDevices
+            if (pairedDevices.isNullOrEmpty()) {
+                logToast(baseContext, "Nenhum dispositivo Bluetooth pareado")
+                return ""
+            }
+
+            for (device in pairedDevices) {
+                val deviceName = device.name
+                val deviceAddress = device.address // Este é o endereço Bluetooth
+
+                if (deviceName == "HC-06") {
+                    return deviceAddress
+                }
+            }
+        }
+
+        logToast(baseContext, "Nenhum dispositivo Bluetooth pareado encontrado")
+        return ""
+    }
+
+    private fun establishBluetoothConnection() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
+            try {
+                if (!::bluetoothDevice.isInitialized) {
+                    val deviceAddress = this.getBluetoothAddress()
+                    bluetoothDevice = bluetoothAdapter.getRemoteDevice(deviceAddress)
+
+                    // UUID para o serviço SPP (Serial Port Profile)
+                    val uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
+                    bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid)
+                    bluetoothSocket.connect()
+                }
+            } catch (e: IOException) {
+                logToast(baseContext, "Erro ao estabelecer conexão com o dispositivo Bluetooth")
+            }
+        }
     }
 
     private fun requestBluetoothPermissions() {
@@ -77,32 +124,21 @@ class ControlActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun requestEnableBluetooth(): Boolean {
-        val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
-        if (bluetoothAdapter == null || !bluetoothAdapter.isEnabled) {
-            // O Bluetooth não está ativado ou não é suportado
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
+            val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices
+            if (pairedDevices.isNullOrEmpty()) {
+                val intentOpenBluetoothSettings = Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
+                startActivity(intentOpenBluetoothSettings)
+
+                return false
+            }
+
+            return true
+        } else {
+            requestBluetoothPermissions()
+
             return false
         }
-
-        var isConnected = false
-        val bluetoothA2dp = BluetoothProfile.A2DP
-        val bluetoothProfile: Boolean = bluetoothAdapter.getProfileProxy(this, object : BluetoothProfile.ServiceListener {
-            override fun onServiceDisconnected(profile: Int) {}
-            override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
-                if (profile == bluetoothA2dp) {
-                    val connectedDevices = proxy?.connectedDevices
-                    if (connectedDevices.isNullOrEmpty()) {
-                        val intentOpenBluetoothSettings = Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
-                        startActivity(intentOpenBluetoothSettings)
-
-                        isConnected = false
-                    }
-
-                    isConnected = true
-                }
-            }
-        }, bluetoothA2dp)
-
-        return isConnected
     }
 
     private fun registerEvent() {
@@ -127,6 +163,7 @@ class ControlActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun executeMenu() {
+        bluetoothSocket.close()
         val menuActivity = Intent(baseContext, MenuActivity::class.java)
         startActivity(menuActivity)
     }
@@ -134,7 +171,40 @@ class ControlActivity : AppCompatActivity(), View.OnClickListener {
     private fun callCommandExecution(command: String) {
         if (requestEnableBluetooth()) {
             logCommandController.insert(command)
+            sendBluetoothCommand(command)
         }
+    }
+
+    private fun sendBluetoothCommand(command: String) {
+        try {
+            var msg = "parar"
+            when (command) {
+                "Mover para Frente" -> {
+                    msg = "frente"
+                }
+                "Mover para Trás" -> {
+                    msg = "tras"
+                }
+                "Mover para Esquerda" -> {
+                    msg = "esquerda"
+                }
+                "Mover para Direita" -> {
+                    msg = "direita"
+                }
+                "Parar" -> {
+                    msg = "parar"
+                }
+            }
+
+            val outputStream = bluetoothSocket.outputStream
+            outputStream.write(msg.toByteArray())
+        } catch (e: IOException) {
+            logToast(baseContext, "Erro ao enviar comando para o dispositivo Bluetooth")
+        }
+    }
+
+    private fun logToast(context: Context, message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
 }
