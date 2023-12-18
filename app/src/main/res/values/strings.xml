@@ -1,39 +1,30 @@
 <resources>
     <string name="app_name">Gear Guard</string>
 
-    <string name="documentation_text">
-        Tela de Controle:\n
-        <b>Botões de Direção:</b> Use os botões na tela para movimentar o robô (Frente, Trás, Esquerda, Direita).\n
 
-        Tela de Logs:\n
+    <string name="documentation_text">
+        <b>Visão Geral:</b>\n
+        Nosso aplicativo foi projetado para simplificar a comunicação entre seu dispositivo móvel e o Arduino, utilizando a tecnologia Bluetooth. Com uma interface amigável e funcionalidades específicas, você poderá enviar comandos essenciais para o movimento do seu dispositivo Arduino.\n\n
+
+        <b>Tela de Controle:</b>\n
+        <b>Botões de Direção:</b> Use os botões na tela para movimentar o robô (Frente, Trás, Esquerda, Direita).\n\n
+
+        <b>Tela de Logs:</b>\n
         <b>Registro de Comandos:</b> Visualize um histórico detalhado dos comandos enviados ao robô com data e hora.\n
         <b>Facilidade de Acesso:</b> Acompanhe as ações recentes para monitorar e analisar o comportamento do robô.\n\n
 
-        Tela de Documentação:\n
+        <b>Tela de Documentação:</b>\n
         <b>Informações Úteis:</b> Acesse informações detalhadas sobre como operar o robô e solucionar problemas comuns.\n
         <b>Suporte ao Usuário:</b> Orientações passo a passo para garantir uma experiência de usuário suave e eficiente.\n\n
 
-        Funcionalidades Adicionais:\n
-        <b>Interface Intuitiva:</b> Navegue facilmente entre as telas de controle, logs e documentação.\n
-        <b>Retorno Automático ao Menu:</b> Se necessário, retorne ao menu principal a qualquer momento para alterar as configurações ou sair do aplicativo.\n\n
-
-        Passo a Passo para Uso do Aplicativo:\n
+        <b>Passo a Passo para Uso do Aplicativo:</b>\n
         1. <b>Abra o Aplicativo:</b> Inicie o GearGuard Controller em seu smartphone.\n
         2. <b>Conexão Bluetooth:</b> O aplicativo tentará se conectar ao seu robô Arduino. Certifique-se de que o Bluetooth esteja ativado e o dispositivo esteja pareado.\n
         3. <b>Controle do Robô:</b> Uma vez conectado, use os botões de direção para comandar o robô.\n
         4. <b>Visualização de Logs:</b> Acesse a tela de logs para ver o histórico de comandos.\n
         5. <b>Consulta à Documentação:</b> Utilize a tela de documentação para esclarecer dúvidas e obter mais informações sobre a operação do robô.\n\n
 
-        Lembre-se:\n
-        <b>Verifique a Conexão:</b> Sempre certifique-se de que o robô esteja ligado e conectado via Bluetooth antes de tentar enviar comandos.\n
-        <b>Segurança Primeiro:</b> Use o botão de parada em caso de posicionamento errado do robô.\n\n
-
-        Com o <b>GearGuard Controller</b>, controlar seu robô nunca foi tão fácil e divertido. Experimente agora e desfrute de uma nova maneira de interagir com sua criação Arduino!\n\n
-
-        <b>Visão Geral</b>\n
-        Nosso aplicativo foi projetado para simplificar a comunicação entre seu dispositivo móvel e o Arduino, utilizando a tecnologia Bluetooth. Com uma interface amigável e funcionalidades específicas, você poderá enviar comandos essenciais para o movimento do seu dispositivo Arduino.\n\n
-
-        <b>Comandos de Controle</b>\n
+        <b>Comandos de Controle:</b>\n
         O aplicativo oferece uma variedade de comandos de controle, permitindo que você mova seu dispositivo Arduino em diferentes direções. Abaixo estão os comandos disponíveis:\n\n
 
         <b>Cima:</b> Ao clicar no botão "Cima", o comando "Frente" será enviado para o Arduino, movendo seu dispositivo para frente.\n\n
@@ -46,14 +37,14 @@
 
         <b>Direita:</b> O botão "Direita" aciona o comando "Direita", movendo o dispositivo Arduino para a direita.\n\n
 
-        <b>Como Usar</b>\n
-        Conexão Bluetooth: Certifique-se de que o módulo Bluetooth em seu Arduino está corretamente pareado com o dispositivo móvel.\n\n
+        <b>Como Usar:</b>\n
+        1. <b>Conexão Bluetooth:</b> Certifique-se de que o módulo Bluetooth em seu Arduino está corretamente pareado com o dispositivo móvel.\n
+        2. <b>Abra o Aplicativo:</b> Inicie o aplicativo e conecte-se ao dispositivo Arduino via Bluetooth.\n
+        3. <b>Controle Intuitivo:</b> Utilize os botões de controle para enviar os comandos desejados e observe seu Arduino responder aos seus movimentos.\n\n
 
-        Abra o Aplicativo: Inicie o aplicativo e conecte-se ao dispositivo Arduino via Bluetooth.\n\n
-
-        Controle Intuitivo: Utilize os botões de controle para enviar os comandos desejados e observe seu Arduino responder aos seus movimentos.\n\n
-
-        <b>Conclusão</b>\n
+        <b>Lembre-se:</b>
+        <b>Verifique a Conexão:</b> Sempre certifique-se de que o robô esteja ligado e conectado via Bluetooth antes de tentar enviar comandos.\n
+        \n
         Com o aplicativo de controle Bluetooth para dispositivos Arduino, você tem o poder de interagir e dirigir seu projeto Arduino de forma simples e eficaz. Experimente os comandos de controle e aproveite a experiência de movimentar seu dispositivo Arduino com facilidade.\n\n
     </string>
 
