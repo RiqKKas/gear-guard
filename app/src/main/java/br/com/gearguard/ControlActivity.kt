@@ -75,18 +75,16 @@ class ControlActivity : AppCompatActivity(), View.OnClickListener {
     private fun establishBluetoothConnection() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
             try {
-                if (!::bluetoothDevice.isInitialized) {
-                    val deviceAddress = this.getBluetoothAddress()
-                    if (deviceAddress != "") {
-                        bluetoothDevice = bluetoothAdapter.getRemoteDevice(deviceAddress)
-                        // UUID para o serviço SPP (Serial Port Profile)
-                        val uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
-                        bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid)
-                        bluetoothSocket.connect()
+                val deviceAddress = this.getBluetoothAddress()
+                if (deviceAddress != "") {
+                    bluetoothDevice = bluetoothAdapter.getRemoteDevice(deviceAddress)
+                    // UUID para o serviço SPP (Serial Port Profile)
+                    val uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
+                    bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid)
+                    bluetoothSocket.connect()
 
-                        isBluetoothConnected = true
-                        logToast(baseContext, "Módulo Bluetooth Conectado")
-                    }
+                    isBluetoothConnected = true
+                    logToast(baseContext, "Módulo Bluetooth Conectado")
                 }
             } catch (e: IOException) {
                 logToast(baseContext, "Erro ao estabelecer conexão com o dispositivo Bluetooth")
