@@ -170,6 +170,7 @@ class ControlActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun callCommandExecution(command: String) {
         if (requestEnableBluetooth()) {
+
             logCommandController.insert(command)
             sendBluetoothCommand(command)
         }
