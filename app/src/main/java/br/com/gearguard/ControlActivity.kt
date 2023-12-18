@@ -25,6 +25,7 @@ class ControlActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityControlBinding
     private lateinit var logCommandController: LogCommandController
+    private var isBluetoothConnected = false
 
     private lateinit var bluetoothDevice: BluetoothDevice
     private lateinit var bluetoothSocket: BluetoothSocket
@@ -42,103 +43,6 @@ class ControlActivity : AppCompatActivity(), View.OnClickListener {
         val bluetoothManager: BluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothAdapter = bluetoothManager.adapter
         requestBluetoothPermissions()
-
-        establishBluetoothConnection()
-    }
-
-    private fun getBluetoothAddress(): String {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
-            val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter.bondedDevices
-            if (pairedDevices.isNullOrEmpty()) {
-                logToast(baseContext, "Nenhum dispositivo Bluetooth pareado")
-                return ""
-            }
-
-            for (device in pairedDevices) {
-                val deviceName = device.name
-                val deviceAddress = device.address // Este é o endereço Bluetooth
-
-                if (deviceName == "HC-06") {
-                    return deviceAddress
-                }
-            }
-        }
-
-        logToast(baseContext, "Nenhum dispositivo Bluetooth pareado encontrado")
-        return ""
-    }
-
-    private fun establishBluetoothConnection() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
-            try {
-                if (!::bluetoothDevice.isInitialized) {
-                    val deviceAddress = this.getBluetoothAddress()
-                    bluetoothDevice = bluetoothAdapter.getRemoteDevice(deviceAddress)
-
-                    // UUID para o serviço SPP (Serial Port Profile)
-                    val uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
-                    bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid)
-                    bluetoothSocket.connect()
-                }
-            } catch (e: IOException) {
-                logToast(baseContext, "Erro ao estabelecer conexão com o dispositivo Bluetooth")
-            }
-        }
-    }
-
-    private fun requestBluetoothPermissions() {
-        val permissionsToRequest = mutableListOf<String>()
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            permissionsToRequest.add(Manifest.permission.ACCESS_FINE_LOCATION)
-        }
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            permissionsToRequest.add(Manifest.permission.ACCESS_COARSE_LOCATION)
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            permissionsToRequest.add(Manifest.permission.BLUETOOTH_CONNECT)
-        }
-
-        if (permissionsToRequest.isNotEmpty()) {
-            ActivityCompat.requestPermissions(this, permissionsToRequest.toTypedArray(), MY_PERMISSIONS_REQUEST_LOCATION)
-        } else {
-            requestEnableBluetooth()
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        when (requestCode) {
-            MY_PERMISSIONS_REQUEST_LOCATION -> {
-                if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-                    requestEnableBluetooth()
-                } else {
-                    // Alguma permissão foi negada, desabilitar funcionalidade que depende dessa permissão.
-                    executeMenu()
-                }
-            }
-        }
-    }
-
-    private fun requestEnableBluetooth(): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
-            val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices
-            if (pairedDevices.isNullOrEmpty()) {
-                val intentOpenBluetoothSettings = Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
-                startActivity(intentOpenBluetoothSettings)
-
-                return false
-            }
-
-            return true
-        } else {
-            requestBluetoothPermissions()
-
-            return false
-        }
     }
 
     private fun registerEvent() {
@@ -168,11 +72,92 @@ class ControlActivity : AppCompatActivity(), View.OnClickListener {
         startActivity(menuActivity)
     }
 
-    private fun callCommandExecution(command: String) {
-        if (requestEnableBluetooth()) {
+    private fun establishBluetoothConnection() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
+            try {
+                if (!::bluetoothDevice.isInitialized) {
+                    val deviceAddress = this.getBluetoothAddress()
+                    if (deviceAddress != "") {
+                        bluetoothDevice = bluetoothAdapter.getRemoteDevice(deviceAddress)
+                        // UUID para o serviço SPP (Serial Port Profile)
+                        val uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
+                        bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid)
+                        bluetoothSocket.connect()
 
-            logCommandController.insert(command)
-            sendBluetoothCommand(command)
+                        isBluetoothConnected = true
+                        logToast(baseContext, "Módulo Bluetooth Conectado")
+                    }
+                }
+            } catch (e: IOException) {
+                logToast(baseContext, "Erro ao estabelecer conexão com o dispositivo Bluetooth")
+            }
+        }
+    }
+
+    private fun getBluetoothAddress() : String {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
+            val pairedDevices: Set<BluetoothDevice>? = bluetoothAdapter.bondedDevices
+            if (pairedDevices.isNullOrEmpty()) {
+                logToast(baseContext, "Nenhum dispositivo Bluetooth pareado")
+                return ""
+            }
+
+            for (device in pairedDevices) {
+                val deviceName = device.name
+                val deviceAddress = device.address // Este é o endereço Bluetooth
+
+                if (deviceName == "HC-06") {
+                    return deviceAddress
+                }
+            }
+        }
+
+        return ""
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (requestCode) {
+            MY_PERMISSIONS_REQUEST_LOCATION -> {
+                if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                    requestEnableBluetooth()
+                } else {
+                    // Alguma permissão foi negada, desabilitar funcionalidade que depende dessa permissão.
+                    executeMenu()
+                }
+            }
+        }
+    }
+
+    private fun requestBluetoothPermissions() {
+        val permissionsToRequest = mutableListOf<String>()
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequest.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequest.add(Manifest.permission.ACCESS_COARSE_LOCATION)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            permissionsToRequest.add(Manifest.permission.BLUETOOTH_CONNECT)
+        }
+
+        if (permissionsToRequest.isNotEmpty()) {
+            ActivityCompat.requestPermissions(this, permissionsToRequest.toTypedArray(), MY_PERMISSIONS_REQUEST_LOCATION)
+        } else {
+            establishBluetoothConnection()
+            requestEnableBluetooth()
+        }
+    }
+
+    private fun requestEnableBluetooth() {
+        if (!this.isBluetoothConnected && (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED)) {
+            val intentOpenBluetoothSettings = Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
+            startActivity(intentOpenBluetoothSettings)
+            logToast(baseContext, "Pareie o dispositivo Bluetooth")
         }
     }
 
@@ -201,6 +186,16 @@ class ControlActivity : AppCompatActivity(), View.OnClickListener {
             outputStream.write(msg.toByteArray())
         } catch (e: IOException) {
             logToast(baseContext, "Erro ao enviar comando para o dispositivo Bluetooth")
+        }
+    }
+
+    private fun callCommandExecution(command: String) {
+        if (this.isBluetoothConnected) {
+            this.logCommandController.insert(command)
+            sendBluetoothCommand(command)
+        } else {
+            establishBluetoothConnection()
+            requestEnableBluetooth()
         }
     }
 
