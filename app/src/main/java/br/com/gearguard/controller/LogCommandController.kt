@@ -30,7 +30,6 @@ class LogCommandController(var context: Context) {
             val save =  dao.save(command) >= 1
 
             if (save) {
-                this.executeCommand(commandName)
                 return true
             }
         }
@@ -40,10 +39,6 @@ class LogCommandController(var context: Context) {
 
     fun getAllLogs(): MutableList <LogCommandEntity> {
         return dao.getAll().toMutableList()
-    }
-
-    private fun executeCommand(commandName: String): Boolean {
-        return true
     }
 
 }

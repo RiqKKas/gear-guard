@@ -3,7 +3,6 @@ package br.com.gearguard.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.LocalDateTime
 
 @Entity(tableName = "LogCommandEntity")
 class LogCommandEntity {
